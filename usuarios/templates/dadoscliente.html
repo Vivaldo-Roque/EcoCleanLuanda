@@ -1,0 +1,86 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>Banco Viva | Dados cliente</title>
+{% endblock %}
+
+{% block content %}
+  <div class="row w-75 mx-auto position-absolute top-50 start-50 translate-middle" style="height: 75%;">
+    <div class="col justify-content-center">
+      <p class="text-center h4">Dados cliente</p>
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="col justify-content-center">
+          <div class="form-floating my-1">
+            {{ form.primeiro_nome }}
+            <label class="form-label" for="floatingFirstName">Primeiro nome</label>
+            {% if form.errors.primeiro_nome %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.primeiro_nome|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="form-floating my-1">
+            {{ form.ultimo_nome }}
+            <label class="form-label" for="floatingLastName">Ultimo nome</label>
+            {% if form.errors.ultimo_nome %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.ultimo_nome|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="form-floating my-1">
+            {{ form.telefone }}
+            <label class="form-label" for="floatingPhone">Telefone</label>
+            {% if form.errors.telefone %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.telefone|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="form-floating my-1">
+            {{ form.morada }}
+            <label class="form-label" for="floatingAddress">Morada</label>
+            {% if form.errors.morada %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.morada|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="form-floating my-1">
+            {{ form.password }}
+            <label class="form-label" for="floatingPassword">Senha</label>
+            {% if form.errors.password %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.password|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="form-floating my-1">
+            {{ form.confirm_password }}
+            <label class="form-label" for="floatingCPassword">Confirmar senha</label>
+            {% if form.errors.confirm_password %}
+              <div class="invalid-feedback d-block text-start">{{ form.errors.confirm_password|striptags }}</div>
+            {% else %}
+              <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+            {% endif %}
+          </div>
+          <div class="row text-center mt-5 mb-5">
+            <div class="col col-sm-6 text-end">
+              <button type="submit" class="btn btn-primary me-3">Salvar</button>
+            </div>
+            <div class="col col-sm-6 text-start">
+              <button type="button" class="btn btn-danger ms-3" onclick="location.href=`{% url 'inicio' %}`">Voltar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row py-3">
+        <form action="{% url 'eliminar_conta' %}" method="post" class="m-0 p-0">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger w-100" name="eliminar_conta" value="Eliminar conta" />
+        </form>
+    </div>
+    </div>
+  </div>
+{% endblock %}

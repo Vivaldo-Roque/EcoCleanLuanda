@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% block titulo %}
+
+    {% endblock %}
+
+    <link type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+  </head>
+
+  <body style="background-color: #f5f5f5;">
+    {% include 'alertas.html' %}
+
+    <nav class="navbar navbar-dark bg-dark fixed-top text-center">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="#75ba21" class="bi bi-bank2 me-2" viewBox="0 0 16 16">
+            <path d="M8.416.223a.5.5 0 0 0-.832 0l-3 4.5A.5.5 0 0 0 5 5.5h.098L3.076 8.735A.5.5 0 0 0 3.5 9.5h.191l-1.638 3.276a.5.5 0 0 0 .447.724H7V16h2v-2.5h4.5a.5.5 0 0 0 .447-.724L12.31 9.5h.191a.5.5 0 0 0 .424-.765L10.902 5.5H11a.5.5 0 0 0 .416-.777l-3-4.5z" />
+          </svg>
+          <span class="fs-4">EcoClean Luanda</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"><span class="navbar-toggler-icon"></span></button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Opções</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="#">Inicio</a>
+              </li>
+              <hr />
+              {% if not usuario.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
+              </li>
+              <hr />
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link link-danger p-0 m-0 text-decoration-none" href="{% url 'sair' %}">Sair</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/form-avoid-resubmission.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
