@@ -1,0 +1,175 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>EcoClean Luanda | Detalhes contentor</title>
+{% endblock %}
+
+{% block styles %}
+  <style>
+    .dot {
+      height: 1rem;
+      width: 1rem;
+      margin-left: 0.2rem;
+      background-color: red;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="col justify-content-center">
+    <div class="card mt-5 mb-5">
+      <svg class="mt-5 mb-3 mx-auto my-auto" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#000000" class="bi bi-trash-fill" viewBox="0 0 16 16">
+        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+      </svg>
+      <div class="card-body">
+        <h5 class="card-title">Nome: {{ contentor.nome }}</h5>
+        <p class="m-0 card-text">Descrição: {{ contentor.descricao }}</p>
+        <p class="m-0 card-text">Localização: {{ contentor.localizacao }}</p>
+        {% if contentor.status %}
+          <p class="m-0 card-text">
+            Online: <span class="text-success h5">●</span>
+          </p>
+        {% else %}
+          <p class="m-0 card-text">
+            Online: <span class="text-danger h5">●</span>
+          </p>
+        {% endif %}
+        <p class="m-0 card-text">
+          Está chovendo na area em que se encontra no contentor?:{% if contentor.sensor_chuva %}
+            Sim
+          {% else %}
+            Não
+          {% endif %}
+        </p>
+        {% if usuario.is_superuser %}
+          <div class="col mt-4">
+            <form class="d-inline-block" action="{% url 'editarcontentor' %}" method="post">
+              {% csrf_token %}
+              <input type="text" class="d-none btn btn-primary" name="cid" value="{{ contentor.contentor }}" />
+              <input type="submit" class="btn btn-primary" name="btn_edit" value="Editar" />
+            </form>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDelete">Deletar</button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container mb-3">
+      <div class="row">
+        <div class="col">
+          <canvas id="tempChart"></canvas>
+        </div>
+        <div class="col">
+          <canvas id="humiChart"></canvas>
+        </div>
+        <div class="col">
+          <canvas id="distChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalDeleteLabel">Confirmação</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Tem a certeza que pretende eliminar esse contentor?</div>
+        <div class="modal-footer">
+          <form class="d-inline-block" action="{% url 'deletarcontentor' %}" method="post">
+            {% csrf_token %}
+            <input type="text" class="d-none btn btn-primary" name="cid" value="{{ contentor.contentor }}" />
+            <input type="submit" class="btn btn-danger" name="deletar_contentor" value="Deletar" />
+          </form>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    window.setTimeout(function () {
+      window.location.reload()
+    }, 120000)
+    
+    const ctx1 = document.getElementById('tempChart')
+    
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Temperatura'],
+        datasets: [
+          {
+            label: 'Temperatura atual em ºC',
+            data: [{{ contentor.sensor_temperatura }}],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            max: 100,
+            min: 0
+          }
+        }
+      }
+    })
+    
+    const ctx2 = document.getElementById('humiChart')
+    
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['Humidade'],
+        datasets: [
+          {
+            label: 'Humidade atual em %',
+            data: [{{ contentor.sensor_umidade }}],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            max: 100,
+            min: 0
+          }
+        }
+      }
+    })
+    
+    const ctx3 = document.getElementById('distChart')
+    
+    new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: ['Lixo'],
+        datasets: [
+          {
+            label: 'Nível de lixo atual',
+            data: [{{ contentor.sensor_distancia }}],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            max: 100,
+            min: 0
+          }
+        }
+      }
+    })
+  </script>
+{% endblock %}

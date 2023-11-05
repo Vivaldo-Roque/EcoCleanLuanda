@@ -3,22 +3,12 @@ from contentoreslixo.models import ContentorLixo
 
 # Create your models here.
 
-class Sensor(models.Model):
-    nome = models.CharField(max_length=50, blank=False)
-    descricao = models.CharField(max_length=50, blank=False)
-
-    class Meta:
-        managed = True
-        db_table = 'sensores'
-        verbose_name_plural = 'sensores'
-
-    def __str__ (self):
-        return self.nome
-
 class DadoSensor(models.Model):
-    contentor = models.ForeignKey(ContentorLixo, on_delete=models.CASCADE)
-    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-    dado = models.CharField(max_length=50, blank=False)
+    contentor = models.ForeignKey(ContentorLixo, on_delete=models.CASCADE, blank=False)
+    sensor_distancia = models.FloatField(default=0)
+    sensor_umidade = models.FloatField(default=0)
+    sensor_temperatura = models.FloatField(default=0)
+    sensor_chuva = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, blank=False)
 
     class Meta:

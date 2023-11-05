@@ -1,16 +1,44 @@
-{% extends "esqueleto.html" %}
+{% extends 'esqueleto.html' %}
 
 {% block titulo %}
-<title>EcoClean Luanda | Inicio</title>
+  <title>EcoClean Luanda | Inicio</title>
 {% endblock %}
 
 {% block content %}
-
-<div class="row w-75 mx-auto position-absolute top-50 start-50 translate-middle">
-    <div class="col justify-content-center">
-        
-        
-
+  <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+      <h1 class="display-4 font-weight-normal">EcoClean Luanda</h1>
+      <p class="lead font-weight-normal">Bem-vindo à nossa plataforma de compartilhamento de informações sobre o uso de táxis para chegar a destinos específicos!</p>
+      <a class="btn btn-outline-secondary" href="{% url 'contentores' %}">Procurar por contentores</a>
     </div>
-</div>
+  </div>
+
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">Monitoramento de Contentores</h2>
+        <p class="lead">Receba informações em tempo real sobre a capacidade de enchimento dos contentores de lixo em sua área.</p>
+      </div>
+      <div class="bg-white box-shadow mx-auto position-relative" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+        <svg class="position-absolute top-50 start-50 translate-middle" xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#000000" class="bi bi-activity" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
+        </svg>
+      </div>
+    </div>
+    <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">Agendamento de Coleta Automática</h2>
+        <p class="lead">Quando um contêiner estiver cheio, o aplicativo enviará automaticamente um pedido de coleta para a central de coleta de lixo, incluindo detalhes sobre a localização e o número do contentor.</p>
+      </div>
+      <div class="bg-dark box-shadow mx-auto position-relative" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+        <svg class="position-absolute top-50 start-50 translate-middle" xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#FFFFFF" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
+          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+        </svg>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'rodape.html' %}
 {% endblock %}

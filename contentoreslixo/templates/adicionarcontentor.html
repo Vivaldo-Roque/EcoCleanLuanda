@@ -1,0 +1,57 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>EcoClean Luanda | Adicionar Contentor</title>
+{% endblock %}
+
+{% block content %}
+  <form action="" method="post" class="mt-5">
+    {% csrf_token %}
+    <div class="col justify-content-center">
+      <div class="form-floating my-1">
+        {{ form.nome }}
+        <label class="form-label" for="floatingName">Nome</label>
+        {% if form.errors.nome %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.nome|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.descricao }}
+        <label class="form-label" for="floatingDescription">Descricao</label>
+        {% if form.errors.descricao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.descricao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.localizacao }}
+        <label class="form-label" for="floatingLocation">Localizacao</label>
+        {% if form.errors.localizacao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.localizacao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.geolocalizacao }}
+        <label class="form-label" for="floatingGeoLocation">Geo Localizacao</label>
+        {% if form.errors.geolocalizacao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.geolocalizacao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="row text-center mt-4 mb-4">
+        <div class="col col-sm-6 text-end">
+          <button type="submit" class="btn btn-primary me-3">Adicionar</button>
+        </div>
+        <div class="col col-sm-6 text-start">
+          <button type="button" class="btn btn-danger ms-3" onclick="location.href=`{% url 'contentores' %}`">Voltar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

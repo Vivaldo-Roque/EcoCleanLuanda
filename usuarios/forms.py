@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import Group
 
 class SignUpForm(ModelForm):
     class Meta:
@@ -125,6 +126,8 @@ class SignUpForm(ModelForm):
         if commit:
             # Saving your form
             instance.save()
+            user_group = Group.objects.get(name='usuario') 
+            instance.groups.add(user_group)
         
         return instance
 

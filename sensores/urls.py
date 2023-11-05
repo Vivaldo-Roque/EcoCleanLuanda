@@ -3,7 +3,6 @@ from rest_framework import routers
 from sensores import views
 
 router = routers.DefaultRouter()
-router.register(r'api/v1/sensores', views.SensorViewSet)
 router.register(r'api/v1/dadosensores', views.DadoSensorViewSet)
 
 # Wire up our API using automatic URL routing.

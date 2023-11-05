@@ -1,0 +1,78 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>EcoClean Luanda | Editar Contentor</title>
+{% endblock %}
+
+{% block content %}
+  <form action="" method="post" class="mt-5">
+    {% csrf_token %}
+    <div class="col justify-content-center">
+      <div class="form-floating my-1">
+        {{ form.nome }}
+        <label class="form-label" for="floatingName">Nome</label>
+        {% if form.errors.nome %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.nome|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.descricao }}
+        <label class="form-label" for="floatingDescription">Descricao</label>
+        {% if form.errors.descricao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.descricao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.localizacao }}
+        <label class="form-label" for="floatingLocation">Localizacao</label>
+        {% if form.errors.localizacao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.localizacao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="form-floating my-1">
+        {{ form.geolocalizacao }}
+        <label class="form-label" for="floatingGeoLocation">Geo Localizacao</label>
+        {% if form.errors.geolocalizacao %}
+          <div class="invalid-feedback d-block text-start">{{ form.errors.geolocalizacao|striptags }}</div>
+        {% else %}
+          <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+        {% endif %}
+      </div>
+      <div class="row text-center mt-4 mb-4">
+        <div class="col col-sm-6 text-end">
+          <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#modalEdit">
+            Salvar
+          </button>
+        </div>
+        <div class="col col-sm-6 text-start">
+          <button type="button" class="btn btn-danger ms-3" onclick="location.href=`{% url 'contentordetalhes' %}`">Voltar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="modalEdit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modalEditLabel">Confirmação</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Tem a certeza que pretende editar esse contentor?</div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger me-3" name="btn_save">Savar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </form>
+
+{% endblock %}

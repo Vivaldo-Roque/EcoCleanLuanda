@@ -16,4 +16,4 @@ admin
 admin
 
 Iniciar o projeto:
-python manage.py runserver 8080
+python manage.py runserver 0.0.0.0:80

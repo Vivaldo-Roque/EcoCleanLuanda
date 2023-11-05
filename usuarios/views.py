@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from usuarios.forms import SignUpForm, SignInForm, UserDataForm
 
-
 @login_required
 def home(request):
 
@@ -14,9 +13,6 @@ def home(request):
     context = {'usuario': usuario}
 
     return render(request, "inicio.html", context=context)
-
-def about(request):
-    return render(request, "sobre.html")
 
 @login_required
 def profile(request):
@@ -88,11 +84,13 @@ def signUp(request):
         else:
             return render(request, 'registar.html', context={'form': form, 'feedback': 'd-block'})
 
+def about(request):
+    return render(request, "sobre.html")
+
 @login_required
 def delete_account(request):
     if request.method == 'POST':
-        btn = request.POST['eliminar_conta']
-        if btn:
+        if 'eliminar_conta' in request.POST:
             usuario = request.user
             logout(request)
             usuario.delete()
