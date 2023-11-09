@@ -1,11 +1,20 @@
 {% extends 'esqueleto.html' %}
 
+{% load static %}
+
+{% block head %}
+
+<script type="module" src="{% static 'js/map.js' %}"></script>
+
+{% endblock %}
+
 {% block titulo %}
   <title>EcoClean Luanda | Detalhes contentor</title>
 {% endblock %}
 
 {% block styles %}
   <style>
+
     .dot {
       height: 1rem;
       width: 1rem;
@@ -14,6 +23,39 @@
       border-radius: 50%;
       display: inline-block;
     }
+
+    #map {
+      height: 40rem;
+      width: auto;
+     } 
+
+     /* HTML marker styles */
+.price-tag {
+  background-color: #4285F4;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 14px;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.price-tag::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #4285F4;
+}
+
+[class$=api-load-alpha-banner] {
+  display: none;
+}
+    
   </style>
 {% endblock %}
 
@@ -68,6 +110,9 @@
         </div>
       </div>
     </div>
+    <div class="container m-3 w-75 mx-auto">
+      <div id="map" class="border border-dark"></div>
+    </div>
   </div>
 
   <!-- Modal -->
@@ -90,16 +135,32 @@
       </div>
     </div>
   </div>
+
 {% endblock %}
 
 {% block scripts %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
+    var coord = "{{ contentor.geolocalizacao }}"
+    var title = "{{ contentor.nome }}";
+    var coordArray = coord.split(", ");
+    var test = { lat: parseFloat(coordArray[0]), lng: parseFloat(coordArray[1]) }
+  </script>
+
+  <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+    ({key: "{{ map_api_key }}", v: "beta"});</script>
+
+  <script>
+
     window.setTimeout(function () {
       window.location.reload()
     }, 120000)
-    
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
     const ctx1 = document.getElementById('tempChart')
     
     new Chart(ctx1, {
@@ -172,4 +233,5 @@
       }
     })
   </script>
+
 {% endblock %}

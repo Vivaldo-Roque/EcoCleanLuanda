@@ -123,11 +123,12 @@ class SignUpForm(ModelForm):
         novoUsuario = User.objects.create_user(username=email, email=email, password=password)
         instance.usuario = novoUsuario
 
+        user_group = Group.objects.get(name='usuario') 
+        novoUsuario.groups.add(user_group)
+
         if commit:
             # Saving your form
             instance.save()
-            user_group = Group.objects.get(name='usuario') 
-            instance.groups.add(user_group)
         
         return instance
 

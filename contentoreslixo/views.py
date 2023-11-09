@@ -1,4 +1,5 @@
 import json
+import os
 from usuarios.decorators import allowed_users
 from contentoreslixo.models import ContentorLixo
 from rest_framework import viewsets
@@ -34,6 +35,7 @@ def dashboard(request):
 @login_required
 def containers(request):
 
+    usuario = request.user
     data = []
     containers = ContentorLixo.objects.all()
     for c in containers:
@@ -68,7 +70,7 @@ def containers(request):
             "geolocalizacao": c.geolocalizacao
             })
 
-    context = {'contentores': data}
+    context = {'contentores': data, 'usuario': usuario}
 
     return render(request, "contentores.html", context=context)
 
@@ -76,9 +78,11 @@ def containers(request):
 @allowed_users(allowed_roles=['admin'])
 def add_container(request):
 
+    usuario = request.user
+
     if request.method == "GET":
         form = ContainerForm(None)
-        context = {'form': form, 'feedback': ''}
+        context = {'form': form, 'usuario': usuario, 'feedback': ''}
         return render(request, "adicionarcontentor.html", context=context)
     
     if request.method == "POST":
@@ -95,12 +99,14 @@ def add_container(request):
                 messages.error(request, "Por favor tente novamente!")
                 return HttpResponseRedirect('/contentores/')
         else:
-            context = {'form': form, 'feedback': 'd-block'}
+            context = {'form': form, 'usuario': usuario, 'feedback': 'd-block'}
             return render(request, 'adicionarcontentor.html', context=context)
 
 @login_required
 @allowed_users(allowed_roles=['admin'])
 def edit_container(request):
+
+    usuario = request.user
  
     if request.method == "POST":
 
@@ -115,7 +121,7 @@ def edit_container(request):
                                 'geolocalizacao': contentor.geolocalizacao,
                                 }
             )
-            context = {'form': form}
+            context = {'form': form, 'usuario': usuario}
             response = render(request, "editarcontentor.html", context=context)
             response.set_cookie('cid', id)
             return response
@@ -136,7 +142,7 @@ def edit_container(request):
                     messages.error(request, "Por favor tente novamente!")
                     return HttpResponseRedirect('/editarcontentor/')
             else:
-                context = {'form': form, 'feedback': 'd-block'}
+                context = {'form': form, 'usuario': usuario, 'feedback': 'd-block'}
                 return render(request, 'editarcontentor.html', context=context)
 
     elif request.method == "GET":
@@ -150,13 +156,16 @@ def edit_container(request):
                             'geolocalizacao': contentor.geolocalizacao,
                             }
         )
-        context = {'form': form}
+        context = {'form': form, 'usuario': usuario}
         response = render(request, "editarcontentor.html", context=context)
         response.set_cookie('cid', id)
         return response
 
 @login_required
 def containerdetails(request):
+
+    map_api_key = os.getenv('GOOGLE_MAP_API_KEY')
+    usuario = request.user
         
     data = {}
     if request.method == "POST":
@@ -216,7 +225,7 @@ def containerdetails(request):
         "status": False
         }
         
-    context = {'contentor': data}
+    context = {'contentor': data, 'map_api_key': map_api_key, 'usuario': usuario}
     response = render(request, "contentordetalhes.html", context=context)
     response.set_cookie('cid', id)
     return response
