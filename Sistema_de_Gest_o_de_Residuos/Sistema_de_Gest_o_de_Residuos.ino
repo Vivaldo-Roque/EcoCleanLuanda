@@ -1,3 +1,4 @@
+#include <HTTPClient.h>
 #include <DHT.h>
 #include <DHT_U.h>
 #include <dht.h>
@@ -5,13 +6,14 @@
 #include <DHTesp.h>
 #include <dht.h>
 #include <WiFi.h>
-#include <HTTPClient.h>
 #include <DHT.h>
 #include <Ultrasonic.h> // Inclua a biblioteca Ultrasonic
 
 // Substitua com as informações da sua rede Wi-Fi
-const char* ssid = "elektron";
-const char* password = "12345678";
+const char* ssid = "Familia Roque 1";
+const char* password = "isaacro12345";
+
+const char* idContentor = "f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d";
 
 // Configuração do sensor DHT11
 #define DHTPIN 27    // Pino de dados do sensor DHT11
@@ -25,8 +27,6 @@ DHT dht(DHTPIN, DHTTYPE);
 #define TRIGGER_PIN 14 // Pino de trigger do sensor ultrassônico
 #define ECHO_PIN 35    // Pino de eco do sensor ultrassônico
 Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN); // Cria uma instância do sensor ultrassônico
-
-
 
 void setup() {
   Serial.begin(115200);
@@ -74,13 +74,24 @@ void connectToWiFi() {
 
 void sendSensorDataToAPI(float temperature, float humidity, float distance, bool isRaining) {
   // URL da sua API
-  String apiURL = "http://example.com/api/update?temp=" + String(temperature) + "&humidity=" + String(humidity) + "&distance=" + String(distance) + "&rain=" + String(isRaining);
+  String apiURL = "http://192.168.100.65/api/v1/dadosensores/";
 
+  String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDcyMzYyLCJpYXQiOjE2OTg4ODAzNjIsImp0aSI6IjBhMzVkMGU1NzlhYjQ3OTFhNTZkNmMxNjU0Mjg3NGM5IiwidXNlcl9pZCI6Mn0.IJpPjY-5lRRZVPO6w_bwdk64GYl739RBEh06s0W7jVc";
+
+  WiFiClient client;
   HTTPClient http;
-  http.begin(apiURL);
+  http.begin(client, apiURL);
 
-  int httpCode = http.GET();
-  if (httpCode == HTTP_CODE_OK) {
+  // Specify content-type header
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  // Specify Authorization-type header
+  // http.addHeader("Authorization", "Bearer " + token);
+  // Data to send with HTTP POST
+  String httpRequestData = "contentor="+String(idContentor)+"&sensor_distancia="+String(distance)+"&sensor_umidade="+String(humidity)+"&sensor_temperatura="+String(temperature)+"&sensor_chuva="+String(isRaining);
+  // Send HTTP POST request
+  int httpCode = http.POST(httpRequestData);
+  
+  if (httpCode == HTTP_CODE_CREATED) {
     Serial.println("Dados enviados com sucesso para a API.");
   } else {
     Serial.print("Erro ao enviar dados para a API. Código de erro: ");
