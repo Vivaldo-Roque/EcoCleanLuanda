@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vender</title>
+</head>
+
+<body>
+    <form>
+        <div class="form-group row">
+            <label for="client_name" class="col-4 col-form-label">Nome completo</label>
+            <div class="col-8">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fa fa-address-card"></i>
+                        </div>
+                    </div>
+                    <input id="client_name" name="client_name" placeholder="Nome completo" type="text"
+                        class="form-control" required="required">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-4 col-form-label">E-mail</label>
+            <div class="col-8">
+                <input id="email" name="email" placeholder="E-mail" type="text" class="form-control"
+                    required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="phone_numbe" class="col-4 col-form-label">Número de telefone</label>
+            <div class="col-8">
+                <input id="phone_numbe" name="phone_numbe" placeholder="Número de telefone" type="text"
+                    class="form-control" required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="province" class="col-4 col-form-label">Província</label>
+            <div class="col-8">
+                <select id="province" name="province" class="custom-select" required="required">
+                    <option value="Luanda">Luanda</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="address" class="col-4 col-form-label">Endereço</label>
+            <div class="col-8">
+                <input id="address" name="address" placeholder="Endereço" type="text" class="form-control"
+                    required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="recyclable_trash" class="col-4 col-form-label">Tipo de produto reciclável</label>
+            <div class="col-8">
+                <select id="recyclable_trash" name="recyclable_trash" required="required" class="custom-select">
+                    <option value="Metal">Metal</option>
+                    <option value="Plástico">Plástico</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="product_description" class="col-4 col-form-label">Decrição do produto</label>
+            <div class="col-8">
+                <textarea id="product_description" name="product_description" cols="40" rows="5" required="required"
+                    class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="quantity" class="col-4 col-form-label">Quantidade desejada</label>
+            <div class="col-8">
+                <input id="quantity" name="quantity" placeholder="Quantidade desejada" type="text" class="form-control"
+                    required="required">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="weight" class="col-4 col-form-label">Peso</label>
+            <div class="col-8">
+                <input id="weight" name="weight" placeholder="Peso" type="text" required="required"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-4 col-8">
+                <button name="submit" type="submit" class="btn btn-primary">Enviar pedido</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
