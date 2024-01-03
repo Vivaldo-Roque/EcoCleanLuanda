@@ -1,19 +1,31 @@
-#include <HTTPClient.h>
-#include <DHT.h>
 #include <DHT_U.h>
 #include <dht.h>
 #include <DHT12.h>
 #include <DHTesp.h>
-#include <dht.h>
-#include <WiFi.h>
 #include <DHT.h>
 #include <Ultrasonic.h> // Inclua a biblioteca Ultrasonic
 
-// Substitua com as informações da sua rede Wi-Fi
-const char* ssid = "Familia Roque 1";
-const char* password = "isaacro12345";
+#include <Arduino.h>
 
-const char* idContentor = "f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d";
+#include <WiFi.h>
+#include <WiFiMulti.h>
+#include <WiFiClientSecure.h>
+
+#include <WebSocketsClient.h>
+
+#include <ArduinoJson.h>
+
+WiFiMulti WiFiMulti;
+WebSocketsClient webSocket;
+
+// Substitua com as informações da sua rede Wi-Fi
+const char* ssid = "Vivaldo Roque";
+const char* password = "VROQUE2023";
+
+String serverAddress = "192.168.137.1";
+int port = 80;
+
+String idContentor = "f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d";
 
 // Configuração do sensor DHT11
 #define DHTPIN 27    // Pino de dados do sensor DHT11
@@ -28,13 +40,24 @@ DHT dht(DHTPIN, DHTTYPE);
 #define ECHO_PIN 35    // Pino de eco do sensor ultrassônico
 Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN); // Cria uma instância do sensor ultrassônico
 
-void setup() {
-  Serial.begin(115200);
-  dht.begin();
-  connectToWiFi();
+DynamicJsonDocument doc(1024);
+
+String output = "";
+
+void hexdump(const void *mem, uint32_t len, uint8_t cols = 16) {
+  const uint8_t* src = (const uint8_t*) mem;
+  Serial.printf("\n[HEXDUMP] Address: 0x%08X len: 0x%X (%d)", (ptrdiff_t)src, len, len);
+  for(uint32_t i = 0; i < len; i++) {
+    if(i % cols == 0) {
+      Serial.printf("\n[0x%08X] 0x%08X: ", (ptrdiff_t)src, i);
+    }
+    Serial.printf("%02X ", *src);
+    src++;
+  }
+  Serial.printf("\n");
 }
 
-void loop() {
+String readSensors() {
   // Leitura dos sensores
   float temperature = dht.readTemperature();
   float humidity = dht.readHumidity();
@@ -55,48 +78,91 @@ void loop() {
   Serial.print("Is Raining: ");
   Serial.println(isRaining ? "Yes" : "No");
 
-  // Envio dos dados para a API
-  sendSensorDataToAPI(temperature, humidity, distance, isRaining);
+  char output[128];
 
-  // Aguarde antes de coletar e enviar dados novamente (por exemplo, a cada 5 minutos)
-  delay(300000); // 5 minutos
+  doc["sensor_temperatura"] = float(temperature);
+  doc["sensor_umidade"] = float(humidity);
+  doc["sensor_distancia"] = float(distance);
+  doc["sensor_chuva"] = bool(isRaining);
+
+  serializeJson(doc, output);
+
+  return output;
 }
 
-void connectToWiFi() {
-  Serial.print("Conectando ao Wi-Fi...");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+
+  switch(type) {
+    case WStype_DISCONNECTED:
+      Serial.printf("[WSc] Disconnected!\n");
+      break;
+    case WStype_CONNECTED:
+      Serial.printf("[WSc] Connected to url: %s\n", payload);
+      // send message to server
+      // webSocket.sendTXT(output);
+      break;
+    case WStype_TEXT:
+      Serial.printf("[WSc] get text: %s\n", payload);
+      delay(1500); // Tempo para enviar a resposta
+      output = readSensors();
+      // send message to server
+      webSocket.sendTXT(output);
+      break;
+    case WStype_BIN:
+      Serial.printf("[WSc] get binary length: %u\n", length);
+      hexdump(payload, length);
+
+      // send data to server
+      // webSocket.sendBIN(payload, length);
+      break;
+    case WStype_ERROR:      
+    case WStype_FRAGMENT_TEXT_START:
+    case WStype_FRAGMENT_BIN_START:
+    case WStype_FRAGMENT:
+    case WStype_FRAGMENT_FIN:
+      break;
+  }
+
+}
+
+void setup() {
+  // Serial.begin(921600);
+  Serial.begin(115200);
+
+  //Serial.setDebugOutput(true);
+  Serial.setDebugOutput(true);
+
+  Serial.println();
+  Serial.println();
+  Serial.println();
+
+  for(uint8_t t = 4; t > 0; t--) {
+    Serial.printf("[SETUP] BOOT WAIT %d...\n", t);
+    Serial.flush();
     delay(1000);
-    Serial.print(".");
   }
-  Serial.println("Conectado ao Wi-Fi.");
+
+  WiFiMulti.addAP(ssid, password);
+
+  //WiFi.disconnect();
+  while(WiFiMulti.run() != WL_CONNECTED) {
+    delay(100);
+  }
+
+  // server address, port and URL
+  webSocket.begin(serverAddress, port, "/ws/contentor/" + idContentor + "/");
+
+  // event handler
+  webSocket.onEvent(webSocketEvent);
+
+  // use HTTP Basic Authorization this is optional remove if not needed
+  // webSocket.setAuthorization("user", "Password");
+
+  // try ever 5000 again if connection has failed
+  webSocket.setReconnectInterval(5000);
+
 }
 
-void sendSensorDataToAPI(float temperature, float humidity, float distance, bool isRaining) {
-  // URL da sua API
-  String apiURL = "http://192.168.100.65/api/v1/dadosensores/";
-
-  String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxNDcyMzYyLCJpYXQiOjE2OTg4ODAzNjIsImp0aSI6IjBhMzVkMGU1NzlhYjQ3OTFhNTZkNmMxNjU0Mjg3NGM5IiwidXNlcl9pZCI6Mn0.IJpPjY-5lRRZVPO6w_bwdk64GYl739RBEh06s0W7jVc";
-
-  WiFiClient client;
-  HTTPClient http;
-  http.begin(client, apiURL);
-
-  // Specify content-type header
-  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  // Specify Authorization-type header
-  // http.addHeader("Authorization", "Bearer " + token);
-  // Data to send with HTTP POST
-  String httpRequestData = "contentor="+String(idContentor)+"&sensor_distancia="+String(distance)+"&sensor_umidade="+String(humidity)+"&sensor_temperatura="+String(temperature)+"&sensor_chuva="+String(isRaining);
-  // Send HTTP POST request
-  int httpCode = http.POST(httpRequestData);
-  
-  if (httpCode == HTTP_CODE_CREATED) {
-    Serial.println("Dados enviados com sucesso para a API.");
-  } else {
-    Serial.print("Erro ao enviar dados para a API. Código de erro: ");
-    Serial.println(httpCode);
-  }
-
-  http.end();
+void loop() {
+  webSocket.loop();
 }

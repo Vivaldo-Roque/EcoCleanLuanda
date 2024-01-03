@@ -16,5 +16,6 @@ urlpatterns = [
     path('editarcontentor/', views.edit_container, name='editarcontentor'),
     path('contentordetalhes/', views.containerdetails, name='contentordetalhes'),
     path('deletarcontentor/', views.delete_container, name='deletarcontentor'),
-    path('devicestatus/', views.check_if_device_is_online, name='devicestatus')
+    path('devicestatus/', views.check_if_device_is_online, name='devicestatus'),
+    path('chartdata/<uuid:id>', views.chart_data, name='chartdata')
 ]

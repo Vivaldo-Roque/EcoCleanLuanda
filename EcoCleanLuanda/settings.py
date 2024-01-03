@@ -46,6 +46,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'usuarios.apps.UsuariosConfig',
     'contentoreslixo.apps.ContentoreslixoConfig',
     'sensores.apps.SensoresConfig',
@@ -87,8 +88,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'EcoCleanLuanda.wsgi.application'
+# WSGI_APPLICATION = 'EcoCleanLuanda.wsgi.application'
+ASGI_APPLICATION = 'EcoCleanLuanda.asgi.application'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -104,7 +120,6 @@ DATABASES = {
         # 'OPTIONS': {'sslmode': 'require'},
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

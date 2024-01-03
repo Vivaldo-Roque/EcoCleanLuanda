@@ -23,7 +23,7 @@ async function initMap() {
       content: priceTag,
     });
 
-    marker.addListener('click', function () {
+    marker.addListener('gmp-click', function () {
         // Do something when the marker is clicked
         window.open(`https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=${coord}&travelmode=driving`)
     });

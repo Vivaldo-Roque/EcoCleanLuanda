@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from sensores.models import DadoSensor
 from datetime import datetime, timezone
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 from contentoreslixo.forms import ContainerForm
 
@@ -268,3 +268,59 @@ def delete_container(request):
             contentor.delete()
             messages.success(request, "Contentor deletado!")
             return HttpResponseRedirect('/contentores/')
+
+@login_required
+def chart_data(request, id):
+    try:
+        if DadoSensor.objects.filter(contentor=id).exists():
+            containerSensor = DadoSensor.objects.filter(contentor=id).latest("created_at")
+            currentDateOnSystem = datetime.now(timezone.utc)
+            diff = currentDateOnSystem - containerSensor.created_at
+            minutes = diff.seconds / 60
+            if minutes > 5:
+                status = False
+            else:
+                status = True
+            data = {
+            "contentor": str(containerSensor.contentor.id),
+            "nome": containerSensor.contentor.nome,
+            "descricao": containerSensor.contentor.descricao,
+            "localizacao": containerSensor.contentor.localizacao,
+            "geolocalizacao": containerSensor.contentor.geolocalizacao,
+            "sensor_distancia": containerSensor.sensor_distancia,
+            "sensor_umidade": containerSensor.sensor_umidade,
+            "sensor_temperatura": containerSensor.sensor_temperatura,
+            "sensor_chuva": containerSensor.sensor_chuva,
+            "status": status
+            }
+        else:
+            contentor = ContentorLixo.objects.filter(id=id).first()
+            data = {
+            "contentor": str(contentor.id),
+            "nome": contentor.nome,
+            "descricao": contentor.descricao,
+            "localizacao": contentor.localizacao,
+            "geolocalizacao": contentor.geolocalizacao,
+            "sensor_distancia": 0,
+            "sensor_umidade": 0,
+            "sensor_temperatura": 0,
+            "sensor_chuva": 0,
+            "status": False
+            }
+
+    except DadoSensor.DoesNotExist:
+        contentor = ContentorLixo.objects.filter(id=id).first()
+        data = {
+        "contentor": str(contentor.id),
+        "nome": contentor.nome,
+        "descricao": contentor.descricao,
+        "localizacao": contentor.localizacao,
+        "geolocalizacao": contentor.geolocalizacao,
+        "sensor_distancia": 0,
+        "sensor_umidade": 0,
+        "sensor_temperatura": 0,
+        "sensor_chuva": 0,
+        "status": False
+        }
+
+    return JsonResponse(data)
