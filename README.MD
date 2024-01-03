@@ -18,3 +18,6 @@ https://www.youtube.com/playlist?list=PLeFetwYAi-F_9lT7em1UDEXS-3Gm9hjrI
 https://www.youtube.com/playlist?list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng
 
 https://www.pensamentoverde.com.br/reciclagem/quais-sao-os-materiais-reciclaveis-e-nao-reciclaveis/
+
+wsl sudo service redis-server start
+wsl sudo service redis-server stop
