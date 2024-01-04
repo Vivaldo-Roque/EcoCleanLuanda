@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from usuarios.forms import SignUpForm, SignInForm, UserDataForm
 
-@login_required
 def home(request):
 
     usuario = request.user
@@ -13,6 +12,14 @@ def home(request):
     context = {'usuario': usuario}
 
     return render(request, "inicio.html", context=context)
+
+def buy(request):
+
+    return render(request, "comprar.html")
+
+def sell(request):
+
+    return render(request, "vender.html")
 
 @login_required
 def profile(request):

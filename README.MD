@@ -19,5 +19,4 @@ https://www.youtube.com/playlist?list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng
 
 https://www.pensamentoverde.com.br/reciclagem/quais-sao-os-materiais-reciclaveis-e-nao-reciclaveis/
 
-wsl sudo service redis-server start
-wsl sudo service redis-server stop
+wsl echo "gormiti" ^| sudo -S service redis-server [start/stop]

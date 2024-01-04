@@ -19,10 +19,10 @@ WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 
 // Substitua com as informações da sua rede Wi-Fi
-const char* ssid = "Vivaldo Roque";
-const char* password = "VROQUE2024";
+const char* ssid = "JACILDA-ROQUE";
+const char* password = "JROQUE2024";
 
-String serverAddress = "192.168.193.66";
+String serverAddress = "192.168.137.1";
 int port = 80;
 
 String idContentor = "f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d";
@@ -78,8 +78,6 @@ String readSensors() {
   Serial.print("Is Raining: ");
   Serial.println(isRaining ? "Yes" : "No");
 
-  delay(2000);
-
   char output[128];
 
   doc["sensor_temperatura"] = float(temperature);
@@ -105,7 +103,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       break;
     case WStype_TEXT:
       Serial.printf("[WSc] get text: %s\n", payload);
-      delay(1000); // Tempo para enviar a resposta
+      delay(1500); // Tempo para enviar a resposta
       output = readSensors();
       // send message to server
       webSocket.sendTXT(output);
@@ -144,28 +142,27 @@ void setup() {
     delay(1000);
   }
 
-  // WiFiMulti.addAP(ssid, password);
+  WiFiMulti.addAP(ssid, password);
 
-  //WiFi.disconnect();
-  // while(WiFiMulti.run() != WL_CONNECTED) {
-  //  delay(100);
-  // }
+  WiFi.disconnect();
+  while(WiFiMulti.run() != WL_CONNECTED) {
+    delay(100);
+  }
 
   // server address, port and URL
-  // webSocket.begin(serverAddress, port, "/ws/contentor/" + idContentor + "/");
+  webSocket.begin(serverAddress, port, "/ws/contentor/" + idContentor + "/");
 
   // event handler
-  // webSocket.onEvent(webSocketEvent);
+  webSocket.onEvent(webSocketEvent);
 
   // use HTTP Basic Authorization this is optional remove if not needed
-  // webSocket.setAuthorization("user", "Password");
+  webSocket.setAuthorization("user", "Password");
 
   // try ever 5000 again if connection has failed
-  // webSocket.setReconnectInterval(5000);
+  webSocket.setReconnectInterval(5000);
 
 }
 
 void loop() {
-  // webSocket.loop();
-  output = readSensors();  
+  webSocket.loop();  
 }

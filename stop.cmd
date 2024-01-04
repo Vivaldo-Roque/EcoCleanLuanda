@@ -1,0 +1,1 @@
+wsl echo "gormiti" ^| sudo -S service redis-server stop

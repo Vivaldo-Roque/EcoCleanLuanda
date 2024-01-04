@@ -32,7 +32,7 @@ def dashboard(request):
 
     return render(request, "dashboard.html", context=context)
 
-@login_required
+# @login_required
 def containers(request):
 
     usuario = request.user
@@ -161,7 +161,7 @@ def edit_container(request):
         response.set_cookie('cid', id)
         return response
 
-@login_required
+# @login_required
 def containerdetails(request):
 
     map_api_key = os.getenv('GOOGLE_MAP_API_KEY')
@@ -230,7 +230,7 @@ def containerdetails(request):
     response.set_cookie('cid', id)
     return response
 
-@login_required
+# @login_required
 def check_if_device_is_online(request):
     if request.method == 'GET':
         data = []
@@ -269,7 +269,7 @@ def delete_container(request):
             messages.success(request, "Contentor deletado!")
             return HttpResponseRedirect('/contentores/')
 
-@login_required
+# @login_required
 def chart_data(request, id):
     try:
         if DadoSensor.objects.filter(contentor=id).exists():
