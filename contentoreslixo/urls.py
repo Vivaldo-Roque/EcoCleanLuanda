@@ -10,7 +10,7 @@ router.register(r'api/v1/contentores', views.ContentorLixoViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('contentores-dashboard/', views.dashboard, name='contentores-dashboard'),
     path('contentores/', views.containers, name='contentores'),
     path('adicionarcontentor/', views.add_container, name='adicionarcontentor'),
     path('editarcontentor/', views.edit_container, name='editarcontentor'),

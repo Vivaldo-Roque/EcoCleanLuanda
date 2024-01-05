@@ -38,10 +38,15 @@ class Comprador(models.Model):
         return self.nome_completo
     
 class Venda(models.Model):
-    comprador = models.ManyToManyField(Comprador, blank=False)
-    vendedor = models.ManyToManyField(Vendedor, blank=False)
+    comprador =  models.ForeignKey(Comprador, on_delete=models.CASCADE, blank=False)
+    vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE, blank=False)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    data_venda = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = True
         db_table = 'venda'
         verbose_name_plural = 'vendas'
+
+    def __str__(self):
+        return f"Venda de {self.valor} em {self.data_venda.strftime('%d/%m/%Y')}"

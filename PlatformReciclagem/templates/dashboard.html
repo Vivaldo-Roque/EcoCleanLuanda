@@ -1,0 +1,53 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>EcoClean Luanda | Dashboard</title>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Dashboard de Vendas</h1>
+  
+  <!-- Navegação -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+      <a class="navbar-brand" href="#">Sistema de Vendas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+              <li class="nav-item active">
+                  <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+              </li>
+              <!-- Outros itens de navegação, se necessário -->
+          </ul>
+      </div>
+  </nav>
+
+  <!-- Tabela de Vendas -->
+  <table class="table">
+      <thead class="thead-light">
+          <tr>
+              <th scope="col">#ID</th>
+              <th scope="col">Vendedor</th>
+              <th scope="col">Comprador</th>
+              <th scope="col">Data</th>
+              <th scope="col">Valor</th>
+              <!-- Outras colunas, se necessário -->
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Aqui você vai iterar sobre as vendas e preencher as linhas da tabela -->
+          <!-- Exemplo de linha: -->
+          <tr>
+              <th scope="row">1</th>
+              <td>Nome do Vendedor</td>
+              <td>Nome do Comprador</td>
+              <td>01/01/2024</td>
+              <td>R$ 100,00</td>
+          </tr>
+          <!-- Repetir para outras vendas -->
+      </tbody>
+  </table>
+</div>
+{% endblock %}
