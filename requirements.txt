@@ -9,5 +9,3 @@ channels-redis>=4.1.0
 setuptools>=68.2.2
 daphne>=4.0.0
 gunicorn>=21.2.0
-tls>=
-http2>=
