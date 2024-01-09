@@ -1,1 +1,1 @@
-web: gunicorn 'EcoCleanLuanda.wsgi:application'
+web: daphne 'EcoCleanLuanda.asgi:application'
