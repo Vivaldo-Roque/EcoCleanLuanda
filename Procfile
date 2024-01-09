@@ -1,1 +1,1 @@
-web: daphne 'EcoCleanLuanda.asgi:application'
+web: daphne .asgi:application
