@@ -42,6 +42,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+   # 'https://your-base-domain'
+]
 
 # Application definition
 
@@ -88,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'EcoCleanLuanda.wsgi.application'
+WSGI_APPLICATION = 'EcoCleanLuanda.wsgi.application'
 ASGI_APPLICATION = 'EcoCleanLuanda.asgi.application'
 
 CHANNEL_LAYERS = {
