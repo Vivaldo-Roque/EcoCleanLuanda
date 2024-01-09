@@ -28,7 +28,7 @@ const ctx2 = document.getElementById('humiChart')
 const ctx3 = document.getElementById('distChart')
 
 const fetchChartData = async () => {
-  const response = await fetch(`http://${window.location.host}/chartdata/f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d`)
+  const response = await fetch(`https://${window.location.host}/chartdata/f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d`)
   const data = await response.json()
   return data
 }
