@@ -1,6 +1,6 @@
 function connect() {
 
-  const socket = new WebSocket(`ws://${window.location.host}/ws/contentor/f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d/`)
+  const socket = new WebSocket(`wss://${window.location.host}/ws/contentor/f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d/`)
 
   socket.onmessage = function (e) {
     console.log('Server: ' + e.data);
