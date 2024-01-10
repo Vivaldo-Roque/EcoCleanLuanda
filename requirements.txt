@@ -1,13 +1,13 @@
-Django>=4.2.5
-djangorestframework>=3.14.0
-djangorestframework_simplejwt>=5.3.0
-python-dotenv>=1.0.0
+Django
+djangorestframework
+djangorestframework_simplejwt
+python-dotenv
 #psycopg2-binary>=2.9.7
-psycopg2>=2.9.3
-channels>=4.0.0
-channels-redis>=4.1.0
-setuptools>=68.2.2
-daphne>=4.0.0
-gunicorn>=21.2.0
-uvicorn>=0.25.0
-whitenoise>=6.6.0
+psycopg2
+channels
+channels-redis
+setuptools
+daphne
+gunicorn
+uvicorn [standard]
+whitenoise
