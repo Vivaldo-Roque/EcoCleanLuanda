@@ -74,13 +74,13 @@
                 </li>
                 <hr />
               {% endif %}
-              {% if usuario.is_authenticated and usuario.is_superuser %}
+              {% comment %} {% if usuario.is_authenticated and usuario.is_superuser %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                 </li>
                 <hr />
-              {% endif %}
-              {% if not usuario.is_superuser %}
+              {% endif %} {% endcomment %}
+              {% if usuario.is_authenticated and usuario.is_superuser %}
                 <li class="nav-item dropdown" data-bs-theme="dark">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gerir</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
