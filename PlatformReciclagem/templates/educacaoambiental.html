@@ -1,0 +1,31 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>EcoClean Luanda | Educação Ambiental</title>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center text-center">
+    <h1 class="text-success">Educação Ambiental: Viver em Harmonia com o Ambiente em Angola</h1>
+
+    <h2 class="text-success">Introdução:</h2>
+    <p class="w-75">Viver em harmonia com o ambiente em Angola é crucial para garantir não apenas a beleza natural, mas também a qualidade de vida das comunidades. Pequenas mudanças nas nossas ações diárias podem desencadear um impacto significativo no nosso ambiente.</p>
+
+    <h2 class="text-success">Pequenas Mudanças, Grande Impacto:</h2>
+    <h3 class="text-success">Exemplos Práticos:</h3>
+    <p class="w-75">Economizar Energia: Desligar aparelhos não utilizados.</p>
+    <p class="w-75">Economizar Água: Reduzir o tempo no banho e corrigir fugas.</p>
+    <p class="w-75">Reduzir Resíduos: Optar por produtos com embalagens sustentáveis.</p>
+
+    <h2 class="text-success">Impacto da Má Gestão nos Comunidades:</h2>
+    <h3 class="text-success">Consequências Diretas:</h3>
+    <p class="w-75">Má gestão resulta em resíduos acumulados, afetando a saúde e o bem-estar das comunidades.</p>
+    <p class="w-75">Exemplos reais de áreas onde a má gestão impactou a qualidade de vida.</p>
+
+    <button class="btn btn-success mt-5 mb-4" onclick="location.href=`{% url 'inicio' %}`">Voltar</button>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'rodape.html' %}
+{% endblock %}

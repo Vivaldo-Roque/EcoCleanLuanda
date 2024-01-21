@@ -7,9 +7,9 @@ class Vendedor(models.Model):
     provincia = models.CharField(max_length = 50, blank=False)
     endereco = models.CharField(max_length = 100, blank=False)
     tipo_material_reciclavel = models.CharField(50, blank=False)
-    quantidade = models.IntegerField(max_length = 50, blank=False)
+    quantidade = models.IntegerField(blank=False)
     descricao = models.CharField(max_length = 500, blank=False)
-    peso_total = models.IntegerField(max_length = 50, blank=False)
+    peso_total = models.IntegerField(blank=False)
 
     class Meta:
         managed = True
@@ -17,7 +17,7 @@ class Vendedor(models.Model):
         verbose_name_plural = 'vendedores'
         
     def __str__ (self):
-        return self.nome_completo
+        return f"#{self.id} - {self.nome_completo}"
 
 class Comprador(models.Model):
     nome_completo = models.CharField(max_length=100, blank=False)
@@ -27,7 +27,7 @@ class Comprador(models.Model):
     endereco = models.CharField(max_length = 100, blank=False)
     tipo_material_reciclavel = models.CharField(50, blank=False)
     descricao = models.CharField(max_length = 500, blank=False)
-    quantidade_desejada = models.IntegerField(max_length = 50, blank=False)
+    quantidade_desejada = models.IntegerField(blank=False)
 
     class Meta:
         managed = True
@@ -35,7 +35,7 @@ class Comprador(models.Model):
         verbose_name_plural = 'compradores'
         
     def __str__ (self):
-        return self.nome_completo
+        return f"#{self.id} - {self.nome_completo}"
     
 class Venda(models.Model):
     comprador =  models.ForeignKey(Comprador, on_delete=models.CASCADE, blank=False)

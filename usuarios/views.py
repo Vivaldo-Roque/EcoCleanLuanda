@@ -13,14 +13,6 @@ def home(request):
 
     return render(request, "inicio.html", context=context)
 
-def buy(request):
-
-    return render(request, "comprar.html")
-
-def sell(request):
-
-    return render(request, "vender.html")
-
 @login_required
 def profile(request):
     if request.method == 'GET':

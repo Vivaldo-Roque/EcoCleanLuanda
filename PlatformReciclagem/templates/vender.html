@@ -1,0 +1,95 @@
+{% extends 'esqueleto.html' %}
+
+{% block titulo %}
+  <title>Eco Clean Luanda | Vender</title>
+{% endblock %}
+
+{% block content %}
+  <form class="mt-3 w-75 mx-auto" action="" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="fullname" class="form-label">Nome completo</label>
+      {{ form.nome_completo }}
+      {% if form.errors.nome_completo %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.nome_completo|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail</label>
+      {{ form.email }}
+      {% if form.errors.email %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.email|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="phonenumber" class="form-label">Número de telefone</label>
+      {{ form.telefone }}
+      {% if form.errors.telefone %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.telefone|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="province" class="form-label">Província</label>
+      {{ form.provincia }}
+      {% if form.errors.provincia %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.provincia|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="address" class="form-label">Endereço</label>
+      {{ form.endereco }}
+      {% if form.errors.endereco %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.endereco|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="recyclable_material" class="form-label">Tipo de material reciclável</label>
+      {{ form.tipo_material_reciclavel }}
+      {% if form.errors.tipo_material_reciclavel %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.tipo_material_reciclavel|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="quantity" class="form-label">Quantidade</label>
+      {{ form.quantidade }}
+      {% if form.errors.quantidade %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.quantidade|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="product_description" class="form-label">Descrição do produto</label>
+      {{ form.descricao }}
+      {% if form.errors.descricao %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.descricao|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="weight" class="form-label">Peso Total (kg)</label>
+      {{ form.peso_total }}
+      {% if form.errors.peso_total %}
+        <div class="invalid-feedback d-block text-start">{{ form.errors.peso_total|striptags }}</div>
+      {% else %}
+        <div class="valid-feedback {{ feedback }} text-start">Parece bom!</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <button name="submit" type="submit" class="btn btn-primary">Enviar pedido</button>
+    </div>
+  </form>
+{% endblock %}

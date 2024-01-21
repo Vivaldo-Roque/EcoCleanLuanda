@@ -20,3 +20,12 @@ https://www.youtube.com/playlist?list=PL-51WBLyFTg0omnamUjL1TCVov7yDTRng
 https://www.pensamentoverde.com.br/reciclagem/quais-sao-os-materiais-reciclaveis-e-nao-reciclaveis/
 
 wsl echo "gormiti" ^| sudo -S service redis-server [start/stop]
+
+{
+    "sensor_temperatura": 10.0,
+    "sensor_umidade": 10.0,
+    "sensor_distancia": 10.0,
+    "sensor_chuva": true
+}
+
+wss://ecocleanluanda-production.up.railway.app/ws/contentor/f2ab21cb-fb3b-4ec4-8b0f-1910fb50847d

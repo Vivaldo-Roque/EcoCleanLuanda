@@ -45,7 +45,7 @@ def containers(request):
             currentDateOnSystem = datetime.now(timezone.utc)
             diff = currentDateOnSystem - containerSensor.created_at
             minutes = diff.seconds / 60
-            if minutes > 5:
+            if minutes > 1:
                 status = False
             else:
                 status = True
@@ -179,7 +179,7 @@ def containerdetails(request):
             currentDateOnSystem = datetime.now(timezone.utc)
             diff = currentDateOnSystem - containerSensor.created_at
             minutes = diff.seconds / 60
-            if minutes > 5:
+            if minutes > 1:
                 status = False
             else:
                 status = True
@@ -240,7 +240,7 @@ def check_if_device_is_online(request):
             currentDateOnSystem = datetime.now(timezone.utc)
             diff = currentDateOnSystem - containerSensor.created_at
             minutes = diff.seconds / 60
-            if minutes > 5:
+            if minutes > 1:
                 status = "off"
             else:
                 status = "on"
@@ -277,7 +277,7 @@ def chart_data(request, id):
             currentDateOnSystem = datetime.now(timezone.utc)
             diff = currentDateOnSystem - containerSensor.created_at
             minutes = diff.seconds / 60
-            if minutes > 5:
+            if minutes > 1:
                 status = False
             else:
                 status = True

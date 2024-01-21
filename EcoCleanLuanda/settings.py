@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'usuarios.apps.UsuariosConfig',
     'contentoreslixo.apps.ContentoreslixoConfig',
     'sensores.apps.SensoresConfig',
+    'PlatformReciclagem.apps.PlatformreciclagemConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
