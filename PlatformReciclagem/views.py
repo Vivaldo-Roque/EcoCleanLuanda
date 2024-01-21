@@ -16,6 +16,8 @@ def dashboard(request):
 
     return render(request, "dashboard.html", context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def sales(request):
 
     usuario = request.user
@@ -82,6 +84,8 @@ def buyer_view(request):
             context = {'form': form, 'feedback': 'd-block'}
             return render(request, 'comprar.html', context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def buyers_view(request):
     usuario = request.user
 
@@ -91,6 +95,8 @@ def buyers_view(request):
 
     return render(request, "compradores.html", context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def sellers_view(request):
     usuario = request.user
 
@@ -104,6 +110,8 @@ def environmental_education_view(request):
 
     return render(request, 'educacaoambiental.html')
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def add_sale(request):
 
     usuario = request.user
@@ -132,6 +140,8 @@ def add_sale(request):
             context = {'form': form, 'feedback': 'd-block'}
             return render(request, 'adicionarvenda.html', context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def see_sale(request, id):  
     
     venda = Venda.objects.get(id=id)
@@ -142,6 +152,8 @@ def see_sale(request, id):
 
     return render(request,'vervenda.html', {'form1':form1, 'form2':form2, 'form3':form3})  
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def update_sale(request, id):  
 
     venda = Venda.objects.get(id=id)  
@@ -170,16 +182,22 @@ def update_sale(request, id):
             context = {'form': form, 'feedback': 'd-block'}
             return render(request, 'atualizarvenda.html', context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def destroy_sale(request, id):  
     venda = Venda.objects.get(id=id)  
     venda.delete()  
     return redirect("/vendas/") 
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def see_seller(request, id):  
     vendedor = Vendedor.objects.get(id=id) 
     form = SellerForm(instance=vendedor, disabled=True)
     return render(request,'vervendedor.html', {'form':form})
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def update_seller(request, id):  
 
     vendedor = Vendedor.objects.get(id=id)  
@@ -208,16 +226,22 @@ def update_seller(request, id):
             context = {'form': form, 'feedback': 'd-block'}
             return render(request, 'editarvendedor.html', context=context)
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def destroy_seller(request, id):  
     venda = Vendedor.objects.get(id=id)  
     venda.delete()  
     return redirect("/vendedores/") 
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def see_buyer(request, id):  
     comprador = Comprador.objects.get(id=id) 
     form = BuyerForm(instance=comprador, disabled=True)
     return render(request,'vercomprador.html', {'form':form}) 
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def update_buyer(request, id):  
 
     if request.method == 'GET':
@@ -246,6 +270,8 @@ def update_buyer(request, id):
             context = {'form': form, 'feedback': 'd-block'}
             return render(request, 'editarcomprador.html', context=context) 
 
+@login_required
+@allowed_users(allowed_roles=['admin'])
 def destroy_buyer(request, id):  
     venda = Comprador.objects.get(id=id)  
     venda.delete()  
