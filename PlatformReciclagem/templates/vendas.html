@@ -51,13 +51,12 @@
 
 {% block scripts %}
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       var table = new DataTable('#bootstrapdatatable', {
-          //language: {
-          //    url: '../src/dataTables/pt-pt.json',
-          //},
-      });
-  });
-
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-PT.json'
+        }
+      })
+    })
   </script>
 {% endblock %}
